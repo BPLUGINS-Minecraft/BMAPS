@@ -1,0 +1,22 @@
+name: BMAPS
+main: b.bplugins.plugin.maps.BMapsPlugin
+version: ${version}
+description: BMAPS Paper-Plugin
+authors:
+  - BPlugins Inc.
+api-version: "1.21"
+folia-supported: true
+prefix: BMAPS
+load: STARTUP
+
+dependencies:
+  server:
+    floodgate:
+      load: BEFORE
+      required: false
+      join-classpath: true
+
+permissions:
+  bmaps.admin:
+    description: Erlaubt das Verwalten von Kategorien und Warps (addcategory, addwarp, removenode, reload)
+    default: op
