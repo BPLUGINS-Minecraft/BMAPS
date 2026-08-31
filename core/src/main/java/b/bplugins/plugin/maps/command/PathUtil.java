@@ -7,12 +7,7 @@ public final class PathUtil {
 
     private PathUtil() {
     }
-
-    /**
-     * Zerlegt einen Pfad wie "Sachsen-Anhalt/Salzlandkreis/Staßfurt" in seine
-     * einzelnen Segmente. Führende/doppelte Slashes und Leerraum um die
-     * Segmente werden toleriert.
-     */
+    
     public static List<String> split(String path) {
         List<String> segments = new ArrayList<>();
         for (String part : path.split("/")) {
