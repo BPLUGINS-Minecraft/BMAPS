@@ -108,9 +108,6 @@ public final class MenuNode {
         this.permission = permission;
     }
 
-    /**
-     * true, wenn dieser Knoten für JEDEN sichtbar ist (keine Berechtigung nötig).
-     */
     public boolean isPublic() {
         return permission == null || permission.isBlank();
     }

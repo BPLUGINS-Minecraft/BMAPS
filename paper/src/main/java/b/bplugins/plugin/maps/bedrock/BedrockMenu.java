@@ -11,18 +11,6 @@ import org.geysermc.floodgate.api.FloodgateApi;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Bedrock-Pendant zu NavigationMenu: baut für den aktuellen Knoten ein
- * Cumulus-SimpleForm mit einem Button pro sichtbarem Kind, sendet es über
- * die Floodgate-API. Wird NUR aufgerufen, nachdem FloodgateSupport bereits
- * bestätigt hat, dass der Spieler ein Bedrock-Client ist - referenziert
- * daher direkt org.geysermc.*-Klassen, ohne weitere Sicherheitschecks.
- *
- * Da Formulare (anders als Bukkit-Inventories) zustandslos sind, wird bei
- * jeder Navigation ein komplett neues Formular gebaut - der aktuelle Pfad
- * (als Namens-Liste) und die Seite werden einfach bei jedem Aufruf erneut
- * durch den Baum aufgelöst.
- */
 public final class BedrockMenu {
 
     private static final int PAGE_SIZE = 40;

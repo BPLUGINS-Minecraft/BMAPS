@@ -46,11 +46,6 @@ public final class BMapsPlugin extends JavaPlugin {
         getLogger().info("BMAPS wurde deaktiviert.");
     }
 
-    /**
-     * Lädt den kompletten Navigations-Baum neu aus der Datenbank.
-     * Wird nach jeder Änderung (addcategory/addwarp/removenode/...) sowie
-     * über /bmaps reload aufgerufen.
-     */
     public void reloadNavigationTree() {
         try {
             this.navigationRoot = service.loadTree();
@@ -63,11 +58,6 @@ public final class BMapsPlugin extends JavaPlugin {
         }
     }
 
-    /**
-     * Registriert /bmaps über Paper's natives Brigadier-Command-System.
-     * WICHTIG: paper-plugin.yml ignoriert den alten "commands:"-Block und
-     * onCommand() komplett - das läuft nur noch über LifecycleEvents.COMMANDS.
-     */
     private void registerCommands() {
         this.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, event ->
                 event.registrar().register(BMapsCommand.create(this), "Öffnet die BMAPS Navigation"));

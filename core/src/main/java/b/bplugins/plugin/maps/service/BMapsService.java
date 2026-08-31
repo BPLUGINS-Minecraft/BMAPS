@@ -9,18 +9,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Kapselt die gesamte Geschäftslogik rund um den Navigations-Baum
- * (Anlegen, Umbenennen/Verschieben, Icon/Beschreibung ändern, Löschen).
- *
- * Bewusst plattformunabhängig: kennt weder Bukkit/Paper- noch Fabric-Typen.
- * Jede Plattform (paper, später fabric/velocity) reicht hier fertige Werte
- * rein (z.B. Icon als String-Key, Koordinaten als WarpLocation) und
- * übersetzt Ergebnisse/Exceptions in ihre eigenen Chat-Nachrichten.
- *
- * Das verhindert, dass jede Plattform dieselbe Validierung (leere Pfade,
- * Typ-Kollisionen, Zyklen-Schutz ...) erneut implementieren muss.
- */
 public final class BMapsService {
 
     private final NodeRepository repository;
@@ -37,10 +25,6 @@ public final class BMapsService {
     // Anlegen
     // ---------------------------------------------------------------
 
-    /**
-     * Legt Kategorien entlang des Pfads an (mkdir -p), gibt den fertigen,
-     * für Nachrichten nutzbaren Pfad-String zurück.
-     */
     public String addCategoryPath(List<String> segments, String icon) throws SQLException, BMapsException {
         requireNonEmpty(segments, "Bitte einen Pfad angeben, z.B. Sachsen-Anhalt/Salzlandkreis");
         try {
@@ -51,10 +35,6 @@ public final class BMapsService {
         return PathUtil.join(segments);
     }
 
-    /**
-     * Legt einen Warp an. pathSegments: letztes Element = Warp-Name,
-     * alles davor = Pfad zur (bereits existierenden) Elternkategorie.
-     */
     public String addWarp(List<String> pathSegments, String icon, WarpLocation location) throws SQLException, BMapsException {
         requireNonEmpty(pathSegments, "Bitte einen Pfad angeben, z.B. Sachsen-Anhalt/Salzlandkreis/Rathaus");
 
@@ -98,12 +78,6 @@ public final class BMapsService {
         return PathUtil.join(segments);
     }
 
-    /**
-     * Setzt/entfernt die Permission-Node eines Eintrags. Ohne Permission ist
-     * ein Knoten für jeden sichtbar. "-"/"clear" entfernt sie wieder.
-     * Vererbung an Kinder passiert implizit: wer die Elternkategorie nicht
-     * sieht, kann im GUI ohnehin nie bei den Kindern ankommen.
-     */
     public String setPermission(List<String> segments, String permission) throws SQLException, BMapsException {
         requireNonEmpty(segments, "Bitte einen Pfad angeben.");
         NodeRepository.NodeRow node = requireNode(segments);

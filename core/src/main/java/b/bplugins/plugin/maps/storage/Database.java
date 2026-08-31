@@ -8,15 +8,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-/**
- * Verwaltet die SQLite-Verbindung über einen HikariCP-Connection-Pool.
- * SQLite selbst kennt keine echten "vielen gleichzeitigen Verbindungen",
- * daher wird der Pool bewusst klein gehalten (maximumPoolSize = 1),
- * das reicht für ein Server-Plugin völlig aus und vermeidet Locking-Probleme.
- *
- * Reines JDBC, keine Plattform-Abhängigkeit - läuft identisch unter
- * paper, fabric, velocity etc.
- */
 public final class Database {
 
     private final HikariDataSource dataSource;
@@ -66,12 +57,6 @@ public final class Database {
         }
     }
 
-    /**
-     * Fügt die "permission"-Spalte nachträglich hinzu, falls die Datenbank
-     * noch aus einer älteren BMAPS-Version stammt und die Spalte noch fehlt.
-     * SQLite kennt kein "ADD COLUMN IF NOT EXISTS", daher wird der Fehler
-     * bei bereits vorhandener Spalte einfach ignoriert.
-     */
     private void migrateAddPermissionColumn(Statement statement) {
         try {
             statement.execute("ALTER TABLE nodes ADD COLUMN permission TEXT");

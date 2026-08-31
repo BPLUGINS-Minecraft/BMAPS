@@ -13,13 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-/**
- * Liest und schreibt den Navigations-Baum in die SQLite-Datenbank.
- * parent_id = NULL bedeutet: Knoten liegt auf oberster Ebene (direkt unter dem Root-Menü).
- *
- * Plattformunabhängig: Icons werden als reiner String-Schlüssel gespeichert,
- * nicht als Bukkit-Material - core kennt kein Bukkit.
- */
 public final class NodeRepository {
 
     private final Database database;
@@ -32,11 +25,6 @@ public final class NodeRepository {
     // Pfad-Auflösung ("mkdir -p"-artiges Verhalten für Kategorien)
     // ---------------------------------------------------------------
 
-    /**
-     * Sucht/erstellt Kategorien entlang der übergebenen Pfad-Segmente.
-     * Gibt die id der letzten (tiefsten) Kategorie im Pfad zurück.
-     * Existierende Kategorien werden wiederverwendet, fehlende neu angelegt.
-     */
     public long resolveOrCreateCategoryPath(List<String> segments, String iconForCreated) throws SQLException {
         Long currentParent = null;
         long currentId = -1;
@@ -60,10 +48,6 @@ public final class NodeRepository {
         return currentId;
     }
 
-    /**
-     * Löst einen kompletten Pfad auf, OHNE etwas anzulegen.
-     * Wird für addwarp (Elternkategorie muss existieren) und removenode genutzt.
-     */
     public Optional<NodeRow> resolvePath(List<String> segments) throws SQLException {
         Long currentParent = null;
         NodeRow current = null;
@@ -207,11 +191,6 @@ public final class NodeRepository {
         }
     }
 
-    /**
-     * Prüft, ob candidateId der Knoten selbst oder einer seiner Nachfahren ist.
-     * Wird beim "move" genutzt, um zu verhindern, dass eine Kategorie in
-     * sich selbst oder in eine ihrer eigenen Unterkategorien verschoben wird.
-     */
     public boolean isSelfOrDescendant(long nodeId, long candidateId) throws SQLException {
         if (nodeId == candidateId) {
             return true;
@@ -244,10 +223,6 @@ public final class NodeRepository {
     // Löschen
     // ---------------------------------------------------------------
 
-    /**
-     * Löscht einen Knoten. Dank "ON DELETE CASCADE" (und PRAGMA foreign_keys=ON)
-     * werden bei Kategorien automatisch alle Kind-Knoten mitgelöscht.
-     */
     public void deleteNode(long id) throws SQLException {
         String sql = "DELETE FROM nodes WHERE id = ?";
         try (Connection connection = database.getConnection();
@@ -257,9 +232,6 @@ public final class NodeRepository {
         }
     }
 
-    /**
-     * Zählt rekursiv alle Kind-Knoten (für die Sicherheitsabfrage bei removenode).
-     */
     public int countDescendants(long id) throws SQLException {
         List<Long> toVisit = new ArrayList<>();
         toVisit.add(id);

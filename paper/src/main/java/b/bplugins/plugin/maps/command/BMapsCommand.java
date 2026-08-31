@@ -21,15 +21,6 @@ import org.bukkit.entity.Player;
 import java.sql.SQLException;
 import java.util.List;
 
-/**
- * Baut den kompletten Command-Baum für BMAPS über Paper's Brigadier-API.
- *
- * Diese Klasse macht bewusst NUR drei Dinge: Argumente parsen, den
- * plattformunabhängigen BMapsService aufrufen und Ergebnisse/Fehler in
- * Chat-Nachrichten übersetzen. Die eigentliche Validierung (leere Pfade,
- * Zyklen, Kollisionen ...) steckt im core-Modul, damit sie bei fabric/
- * velocity nicht erneut geschrieben werden muss.
- */
 public final class BMapsCommand {
 
     private static final String ADMIN_PERMISSION = "bmaps.admin";
@@ -229,11 +220,6 @@ public final class BMapsCommand {
     // Hilfsmethoden
     // -----------------------------------------------------------------
 
-    /**
-     * Führt eine Service-Operation aus, lädt bei Erfolg den Navigationsbaum
-     * neu und schickt die Ergebnis-/Fehlermeldung an den Sender. Bündelt
-     * die immer gleiche try/catch/reload-Wiederholung aus den Handlern oben.
-     */
     private static void runAndReport(BMapsPlugin plugin, CommandSourceStack source, ServiceCall call) {
         try {
             String message = call.run();

@@ -7,7 +7,7 @@ public final class PathUtil {
 
     private PathUtil() {
     }
-    
+
     public static List<String> split(String path) {
         List<String> segments = new ArrayList<>();
         for (String part : path.split("/")) {

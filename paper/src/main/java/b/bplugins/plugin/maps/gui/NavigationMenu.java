@@ -15,16 +15,6 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
-/**
- * Ein einzelnes, gerendertes Navigations-Menü für einen Spieler.
- * Hält den Pfad (Breadcrumb) zum aktuellen Knoten, damit "Zurück" funktioniert,
- * sowie die aktuelle Seite, falls eine Kategorie mehr als PAGE_SIZE Einträge hat.
- *
- * Jede Instanz gehört genau einem Spieler (viewer) - das ist nötig, um
- * Einträge mit gesetzter Permission für ihn korrekt aus- oder einzublenden.
- * Berechtigung "vererbt" sich dadurch implizit: wer eine Kategorie nicht
- * sieht, kann per GUI nie zu ihren Kindern navigieren.
- */
 public final class NavigationMenu implements InventoryHolder {
 
     private static final int PAGE_SIZE = 45; // Slots 0-44, Reihen 0-4
@@ -64,10 +54,6 @@ public final class NavigationMenu implements InventoryHolder {
         return name.length() > 32 ? name.substring(0, 32) : name;
     }
 
-    /**
-     * Kinder des aktuellen Knotens, gefiltert auf das, was der Viewer
-     * tatsächlich sehen darf (kein Permission-Node = für alle sichtbar).
-     */
     private List<MenuNode> visibleChildren() {
         List<MenuNode> visible = new ArrayList<>();
         for (MenuNode child : path.peekLast().getChildren()) {
@@ -165,10 +151,6 @@ public final class NavigationMenu implements InventoryHolder {
         return item;
     }
 
-    /**
-     * Wird vom Listener bei Klick auf einen Slot aufgerufen.
-     * Kümmert sich um Navigation (Kategorie/Zurück/Seite) bzw. Teleport (Warp).
-     */
     public void handleClick(Player player, int slot) {
         List<MenuNode> children = visibleChildren();
         int totalPages = totalPages(children.size());
